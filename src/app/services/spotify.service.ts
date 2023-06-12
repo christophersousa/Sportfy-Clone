@@ -3,6 +3,7 @@ import { SpotifyConfiguration } from 'src/environments/environment';
 import Spotify from 'spotify-web-api-js'
 import { IUser } from '../interfaces/IUser';
 import { SpotifyUser } from '../common/spotifyHelper';
+import { IToken } from '../interfaces/Itoken';
 
 @Injectable({
   providedIn: 'root'
@@ -36,10 +37,8 @@ export class SpotifyService {
   }
 
   async obterSpotifyUser(){
-    const userInfor = await  this.spotify.getMe().then((spotifyUser) =>{
-      this.user = SpotifyUser(spotifyUser);
-    });
-    console.log(this.user);
+    const userInfor = await  this.spotify.getMe()
+    this.user = SpotifyUser(userInfor);
   }
 
   obeterUrlLogin(){
@@ -58,7 +57,7 @@ export class SpotifyService {
     return params[0].split('=')[1]
   }
 
-  definirAccessToken(token: string){
+  definirAccessToken(token:string){
     this.spotify.setAccessToken(token);
     localStorage.setItem('token', token);
   }
